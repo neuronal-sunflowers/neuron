@@ -1,0 +1,32 @@
+.include "neuron.sp"
+
+* Power supply
+VDD vdd 0 5V
+
+* Input pulse
+Vgd vgs 0 0.4
+
+* Integrator
+I_in 0 body 2.5u
+C_body body 0 1p
+R_body body 0 2meg
+
+
+* Threshold detector
+X_inv1 vdd 0 body x inverter w_p=2.1u l_p=24u w_n=1.5u l_n=24u
+X_inv2 vdd 0 x spike inverter w_p=2.1u l_p=24u w_n=1.5u l_n=24u
+
+* Reset and Leakyness
+M_reset_n_leakyness 0 spike body gnd n W=1.5u L=0.6u
+
+*Cload spike 0 0.1f
+
+* Simulation
+.tran 1n 10u uic
+
+.control
+run
+plot v(body) v(spike)
+.endc
+
+.end
